@@ -1,9 +1,4 @@
-.venv/
-.mysite.log
-# PyCharm
-.idea/
-*.iml
-# Compiled bytecode
-__pycache__/
-*.py[cod]
-*$py.class
+venv/
+mysite.log
+.idea
+__pycache__
