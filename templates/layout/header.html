@@ -1,0 +1,257 @@
+{% load static %}
+<!--导航栏-->
+<div id="app1">
+  <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent" style="height: 50px; line-height: 50px;">
+      <div id="navContainer" class="nav-wrapper head-container">
+        <!-- 站点Logo -->
+        <a href="/" class="brand-logo" style="margin-left: 20px;">
+          <!-- 动态切换logo图片：light / dark -->
+          <img class="logo-img" v-if="theme === 'light'"
+               src="{% static '/img/light.svg' %}"
+               @click="setTheme('dark')"
+               alt="切换为暗色主题"
+               style="height: 30px;width: 30px;margin-top: 10px;z-index: 1">
+          <img class="logo-img" v-if="theme === 'dark'"
+               src="{% static '/img/dark.svg' %}"
+               @click="setTheme('light')"
+               alt="切换为亮色主题"
+               style="height: 30px;width: 30px;margin-top: 10px;z-index: 1">
+          <span class="logo-span" style="font-size: 1.2rem;">{{ SITE_NAME }}</span>
+        </a>
+
+        <!-- 移动端侧边栏触发按钮（Materialize） -->
+        <a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse">
+          <i class="fas fa-bars"></i>
+        </a>
+
+        <!-- PC端导航栏，放在右侧 -->
+        <ul class="right hide-on-med-and-down">
+          <!-- 首页 -->
+          <li class="hide-on-med-and-down nav-item">
+            <a href="/" class="waves-effect waves-light">
+              <i class="fas fa-home" style="font-size: 14px;"></i>
+              <span style="font-size: 0.9rem;">首页</span>
+            </a>
+          </li>
+
+          <!-- 动态循环导航（示例） -->
+          {% for category in category_nav %}
+          <li class="hide-on-med-and-down nav-item">
+            <a href="{% url 'article_category' category.id %}" class="waves-effect waves-light">
+              <i class="{{ category.icon }}" style="font-size: 14px;"></i>
+              <span style="font-size: 0.9rem;">{{ category.name }}</span>
+            </a>
+          </li>
+          {% endfor %}
+
+          <!-- 整理 下拉菜单 -->
+          <li class="hide-on-med-and-down nav-item">
+            <a href="#" class="waves-effect waves-light">
+              <i class="fas fa-list" style="font-size: 14px;"></i>
+              <span style="font-size: 0.9rem;">整理</span>
+              <i class="fas fa-chevron-down" aria-hidden="true" style="font-size: 12px;"></i>
+            </a>
+            <ul class="sub-nav menus_item_child">
+              <li>
+                <a href="{% url 'category' %}">
+                  <i class="fas fa-bookmark" style="font-size: 14px;"></i>
+                  <span style="font-size: 0.85rem;">归类</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'article_year' %}">
+                  <i class="fas fa-file-contract" style="font-size: 14px;"></i>
+                  <span style="font-size: 0.85rem;">归档</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'tag' %}">
+                  <i class="fas fa-tags" style="font-size: 14px;"></i>
+                  <span style="font-size: 0.85rem;">标签</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <!-- 交流 下拉菜单 -->
+          <li class="hide-on-med-and-down nav-item">
+            <a href="#" class="waves-effect waves-light">
+              <i class="fa fa-paper-plane" style="font-size: 14px;"></i>
+              <span style="font-size: 0.9rem;">交流</span>
+              <i class="fas fa-chevron-down" aria-hidden="true" style="font-size: 12px;"></i>
+            </a>
+            <ul class="sub-nav menus_item_child">
+              <li>
+                <a href="{% url 'core:member' %}">
+                  <i class="fas fa-venus-mars" style="font-size: 14px;"></i>
+                  <span style="font-size: 0.85rem;">友链</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'core:message' %}">
+                  <i class="fas fa-envelope" style="font-size: 14px;"></i>
+                  <span style="font-size: 0.85rem;">留言</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <!-- 关于 -->
+          <li class="hide-on-med-and-down nav-item">
+            <a href="{% url 'core:about' %}" class="waves-effect waves-light">
+              <i class="fas fa-id-card-alt" style="font-size: 14px;"></i>
+              <span style="font-size: 0.9rem;">关于</span>
+            </a>
+          </li>
+
+          <!-- 发布 -->
+          <li class="hide-on-med-and-down nav-item">
+            <a href="{% url 'edit' %}" class="waves-effect waves-light">
+              <i class="fa fa-link" style="font-size: 14px;"></i>
+              <span style="font-size: 0.9rem;">发布</span>
+            </a>
+          </li>
+
+          <!-- 登录/注销 -->
+          <li class="hide-on-med-and-down nav-item">
+            {% if request.session.info.name %}
+            <a href="{% url 'account:logout' %}" class="waves-effect waves-light">
+              <i class="fas fa-sign-out-alt" style="font-size: 14px;"></i>
+              <span style="font-size: 0.9rem;">注销</span>
+            </a>
+            {% else %}
+            <a href="{% url 'account:login' %}" class="waves-effect waves-light">
+              <i class="fas fa-sign-in-alt" style="font-size: 14px;"></i>
+              <span style="font-size: 0.9rem;">登录</span>
+            </a>
+            {% endif %}
+          </li>
+
+          <!-- 搜索按钮 -->
+          <li>
+            <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+              <i id="searchIcon" class="fas fa-search" title="搜索" style="font-size: 14px;"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+</div>
+
+{% block js %}
+<script>
+  // Vue 逻辑：动态切换 theme
+  new Vue({
+    el: '#app1',
+    delimiters: ["[[", "]]"],
+    data: {
+      theme: 'light', // 默认主题
+    },
+    created() {
+      this.init_theme();
+    },
+    methods: {
+      setTheme(themeName) {
+        this.theme = themeName;
+        localStorage.setItem('theme', themeName);
+        window.dispatchEvent(new CustomEvent('themeChanged', { detail: themeName }));
+      },
+      init_theme() {
+        let storedTheme = localStorage.getItem('theme');
+        if (storedTheme) {
+          this.theme = storedTheme;
+        }
+      }
+    }
+  });
+</script>
+
+<style>
+  /* 调整 nav 的高度与行高，使其更紧凑 */
+  .navbar-fixed nav {
+    height: 50px !important;     /* 原先为 56px，可自行调整 */
+    line-height: 50px !important;
+  }
+
+  /* 调整顶部 Logo 大小 */
+  .brand-logo .logo-img {
+    /* 在行内已经写死 height: 30px; width: 30px; */
+  }
+  .brand-logo .logo-span {
+    /* 在行内已经改成 font-size:1.2rem; 可再自行调节 */
+    margin-left: 6px;
+  }
+
+  /* 父级导航项，确保能够相对定位子菜单 */
+  .nav-item {
+    position: relative;
+  }
+
+  /* 默认隐藏子菜单 */
+  .menus_item_child {
+    display: none;
+    position: absolute;
+    top: 50px; /* 让子菜单紧贴主导航，可根据 nav 高度微调 */
+    left: 0;
+    background-color: #fff;  /* 白色背景 */
+    border-radius: 5px;
+    min-width: 120px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    margin: 0;
+    padding: 5px 0;
+    z-index: 999;
+  }
+
+  /* 当鼠标悬停在父级 <li> 时显示子菜单 */
+  .nav-item:hover > .menus_item_child {
+    display: block;
+  }
+
+  /* 子菜单列表项 */
+  .menus_item_child li {
+    list-style: none;
+  }
+
+  /* 子菜单中的链接样式：更小字体、更紧凑 */
+  .menus_item_child li a {
+    display: block;
+    padding: 6px 12px;      /* 比之前更小 */
+    color: #333;
+    text-decoration: none;
+    font-size: 0.85rem;     /* 更小字体 */
+    transition: background-color 0.3s;
+  }
+
+  /* 悬停效果：微微变灰 */
+  .menus_item_child li a:hover {
+    background-color: #f5f5f5;
+  }
+
+  /* 顶部导航链接的样式：减少 padding、缩小字体 */
+  .nav-item > a {
+    font-size: 0.9rem;
+    padding: 0 8px; /* 缩小左右内边距 */
+  }
+
+  .nav-item > a i {
+    margin-right: 3px; /* 图标和文字稍作分隔 */
+  }
+</style>
+    <style>
+/* 缩小子菜单整体的上下留白 */
+.menus_item_child {
+  padding: 2px 0 !important; /* 原先可能是 5px 0; 可以再减少 */
+  margin: 0 !important;
+}
+
+/* 缩小每个菜单项的上下留白，并减小行高 */
+.menus_item_child li a {
+  padding: 4px 10px !important; /* 让上下变小，比如原先 6px 12px */
+  line-height: 1.2 !important;  /* 降低行高 */
+  font-size: 0.85rem !important; /* 文字大小可再调 */
+}
+</style>
+
+{% endblock js %}
