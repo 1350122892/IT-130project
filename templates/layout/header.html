@@ -1,0 +1,249 @@
+{% load static %}
+
+<div id="app1">
+  <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent" style="height: 50px; line-height: 50px;">
+      <div id="navContainer" class="nav-wrapper head-container">
+        
+        <a href="/" class="brand-logo" style="margin-left: 20px;">
+       
+          <img class="logo-img" v-if="theme === 'light'"
+            src="{% static '/img/light.svg' %}"
+            @click="setTheme('dark')"
+            alt="Switch to dark theme"
+            style="height: 30px;width: 30px;margin-top: 10px;z-index: 1">
+          <img class="logo-img" v-if="theme === 'dark'"
+            src="{% static '/img/dark.svg' %}"
+            @click="setTheme('light')"
+            alt="Switch to light theme"
+             style="height: 30px;width: 30px;margin-top: 10px;z-index: 1">
+
+        </a>
+
+        
+        <a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse">
+          <i class="fas fa-bars"></i>
+        </a>
+      
+        <ul class="right hide-on-med-and-down">
+         
+          <li class="hide-on-med-and-down nav-item">
+            <a href="/" class="waves-effect waves-light">
+              <i class="fas fa-home" style="font-size: 14px;"></i>
+              <span style="font-size: 0.9rem;">Home Page</span>
+            </a>
+          </li>
+        
+          {% for category in category_nav %}
+          <li class="hide-on-med-and-down nav-item">
+            <a href="{% url 'article_category' category.id %}" class="waves-effect waves-light">
+              <i class="{{ category.icon }}" style="font-size: 14px;"></i>
+              <span style="font-size: 0.9rem;">{{ category.name }}</span>
+            </a>
+          </li>
+          {% endfor %}
+        
+          <li class="hide-on-med-and-down nav-item">
+            <a href="#" class="waves-effect waves-light">
+              <i class="fas fa-list" style="font-size: 14px;"></i>
+              <span style="font-size: 0.9rem;">Collate</span>
+              <i class="fas fa-chevron-down" aria-hidden="true" style="font-size: 12px;"></i>
+            </a>
+            <ul class="sub-nav menus_item_child">
+              <li>
+                <a href="{% url 'category' %}">
+                  <i class="fas fa-bookmark" style="font-size: 14px;"></i>
+                  <span style="font-size: 0.85rem;">Categorisation</span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'article_year' %}">
+                  <i class="fas fa-file-contract" style="font-size: 14px;"></i>
+                  <span style="font-size: 0.85rem;">Archive </span>
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'tag' %}">
+                  <i class="fas fa-tags" style="font-size: 14px;"></i>
+                  <span style="font-size: 0.85rem;">Label</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+         
+          <li class="hide-on-med-and-down nav-item">
+            <a href="#" class="waves-effect waves-light">
+              <i class="fa fa-paper-plane" style="font-size: 14px;"></i>
+              <span style="font-size: 0.9rem;">Exchanges</span>
+              <i class="fas fa-chevron-down" aria-hidden="true" style="font-size: 12px;"></i>
+            </a>
+            <ul class="sub-nav menus_item_child">
+
+              <li>
+                <a href="{% url 'core:message' %}">
+                  <i class="fas fa-envelope" style="font-size: 14px;"></i>
+                  <span style=" font-size: 0.85rem;">Leave a Message</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          
+          <li class="hide-on-med-and-down nav-item">
+            <a href="{% url 'core:about' %}" class="waves-effect waves-light">
+              <i class="fas fa-id-card-alt" style="font-size: 14px;"></i>
+              <span style="font-size: 0.9rem;">About</span>
+            </a>
+          </li>
+
+          
+          <li class="hide-on-med-and-down nav-item">
+            <a href="{% url 'edit' %}" class="waves-effect waves-light">
+              <i class="fa fa-link" style="font-size: 14px;"></i>
+              <span style="font-size: 0.9rem;">Post</span>
+            </a>
+          </li>
+
+          
+          <li class="hide-on-med-and-down nav-item">
+            {% if request.session.info.name %}
+            <a href="{% url 'account:logout' %}" class="waves-effect waves-light">
+              <i class="fas fa-sign-out-alt" style="font-size: 14px;"></i>
+              <span style="font-size: 0.9rem;">Login out</span>
+            </a>
+            {% else %}
+            <a href="{% url 'account:login' %}" class="waves-effect waves-light">
+              <i class="fas fa-sign-in-alt" style="font-size: 14px;"></i>
+              <span style="font-size: 0.9rem;">Login</span>
+            </a>
+            {% endif %}
+          </li>
+
+       
+          <li>
+            <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+              <i id="searchIcon" class="fas fa-search" title="search" style="font-size: 14px;"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+</div>
+
+{% block js %}
+<script>
+  
+  new Vue({
+    el: '#app1',
+    delimiters: ["[[", "]]"],
+    data: {
+      theme: 'light', 
+    },
+    created() {
+      this.init_theme();
+    },
+    methods: {
+      setTheme(themeName) {
+        this.theme = themeName;
+        localStorage.setItem('theme', themeName);
+        window.dispatchEvent(new CustomEvent('themeChanged', { detail: themeName }));
+      },
+      init_theme() {
+        let storedTheme = localStorage.getItem('theme');
+        if (storedTheme) {
+          this.theme = storedTheme;
+        }
+      }
+    }
+  });
+</script>
+
+<style>
+ 
+  .navbar-fixed nav {
+    height: 50px !important;     
+    line-height: 50px !important;
+  }
+
+ 
+  .brand-logo .logo-img {
+    
+  }
+  .brand-logo .logo-span {
+    
+    margin-left: 6px;
+  }
+
+
+  .nav-item {
+    position: relative;
+  }
+
+
+  .menus_item_child {
+    display: none;
+    position: absolute;
+    top: 50px; 
+    left: 0;
+    background-color: #fff;
+    border-radius: 5px;
+    min-width: 120px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    margin: 0;
+    padding: 5px 0;
+    z-index: 999;
+  }
+
+  
+  .nav-item:hover > .menus_item_child {
+    display: block;
+  }
+
+
+  .menus_item_child li {
+    list-style: none;
+  }
+
+  
+  .menus_item_child li a {
+    display: block;
+    padding: 6px 12px;      
+    color: #333;
+    text-decoration: none;
+    font-size: 0.85rem;    
+    transition: background-color 0.3s;
+  }
+
+
+  .menus_item_child li a:hover {
+    background-color:#f5f5f5;
+  }
+
+ 
+  .nav-item > a {
+    font-size: 0.9rem;
+    padding: 0 8px; 
+  }
+
+  .nav-item > a i {
+    margin-right: 3px; 
+  }
+</style>
+    <style>
+
+.menus_item_child {
+  padding: 2px 0 !important; 
+  margin: 0 !important;
+}
+
+
+.menus_item_child li a {
+  padding: 4px 10px !important; 
+  line-height: 1.2 !important;  
+  font-size: 0.85rem !important; 
+}
+</style>
+
+{% endblock js %}

@@ -1,0 +1,31 @@
+
+<div class="row">
+    <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+        <div class="brand">
+            <div class="title center-align">
+                {{ SLOGAN }}
+            </div>
+            <div class="description center-align">
+                <span id="subtitle"></span>
+                <script>
+                    $.getScript("https://fastly.jsdelivr.net/npm/typed.js@2.0.11", function () {
+                        var typed = new Typed("#subtitle", {
+                        strings: ['<span style="color: grey; font-size: 48px; font-weight: bold">{{ DYNAMIC_SLOGAN }}</span>'],
+                            //['{{ DYNAMIC_SLOGAN }}'],
+                        startDelay: 300,
+                        typeSpeed: 130,
+                        loop: true,
+                        backSpeed: 80,
+                        showCursor: true,
+                        cursorChar: '<span style="color:pink; font-size: 48px">♥</span>'//'♥'
+                         });
+                    })
+                </script>
+            
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('.bg-cover').css('background-image', 'url({{ BG_COVER }})');
+</script>

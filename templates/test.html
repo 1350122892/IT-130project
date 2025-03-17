@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Tittle</label>
+                <input type="text" class="form-control" placeholder="name" name="title">
+            </div>
+            <div class="form-group">
+                <label>Author</label>
+                <input type="text" class="form-control" placeholder="author" name="author">
+            </div>
+            <div class="form-group">
+                <label>desc</label>
+                <input type="text" class="form-control" placeholder="description" name="desc">
+            </div>
+            <div class="form-group">
+                <label>cover</label>
+                <input type="text" class="form-control" placeholder="article cover" name="cover">
+            </div>
+            <div class="form-group">
+                <label>content</label>
+                <input type="text" class="form-control" placeholder="content" name="content">
+            </div>
+            <div class="form-group">
+                <label>category</label>
+                <select class="form-control" id="years" name="years">
+                    <option value="">Please select a year</option>
+                    {% for year in years %}
+                        <option value="{{ year.id }}">{{ year.year }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>category</label>
+                <select class="form-control" id="category" name="category">
+                    <option value="">Please select a year</option>
+                    {% for cat in categorys %}
+                        <option value="{{ cat.id }}">{{ cat.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="tag">Label</label>
+                <select multiple class="form-control" id="tag" name="tag">
+                    {% for tag in tags %}
+                        <option value="{{ tag.id }}">{{ tag.name }}</option>
+                    {% endfor %}
+                </select>
+                <small class="form-text text-muted">Hold Ctrl or Shift key to select more tagsHold Ctrl or Shift key to select more tags。</small>
+            </div>
+        </form>
+</body>
+</html>

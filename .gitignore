@@ -1,0 +1,4 @@
+venv/
+mysite.log
+.idea
+__pycache__

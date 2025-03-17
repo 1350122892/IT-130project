@@ -1,0 +1,79 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block title %}Leave a Message  {% endblock %}
+{% block banner %}
+    <div class="bg-cover pd-header about-cover">
+        <div class="container">
+            {% include 'layout/banner.html' %}
+        </div>
+    </div>
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'plugin/valine/valine.css' %}" type="text/css">
+{% endblock css %}
+{% block contents %}
+    <main class="content" style="min-height: 301px;">
+        <div id="contact" class="container chip-container">
+            <div class="card">
+                <div class="card-content">
+                    <div class="tag-title center-align">
+                        <i class="fas fa-comments"></i>&nbsp;&nbsp;Message Board
+                    </div>
+                    <hr>
+                    <div id="add_color" style="text-align: center">Here you can leave your footprints, welcome to leave a message below, together with the exchange of learning!
+                        <hr>
+                    </div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th align="left">My Other Blogs</th>
+                            <th align="center">Blog Information</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr id="add_color">
+                            <td align="left">Blog Name: </td>
+                            <td align="center">CSDN</td>
+                        </tr>
+                        <tr>
+                            <td align="left">Blog URL: </td>
+                            <td align="center">
+                            <a href="https://blog.csdn.net/clearloveQAQ?spm=1000.2115.3001.5343" target="_blank">
+                             https://blog.csdn.net/clearloveQAQ
+                            </a>
+                            </td>
+                         </tr>
+                        <tr id="add_color">
+                            <td align="left">Blog User: </td>
+                            <td align="center">clearloveQAQ</td>
+                        </tr>
+                        <tr>
+                            <td align="left">Blog Description: </td>
+                            <td align="center">Random thoughts, documenting what I see, hear, and learn</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                </div>
+
+            </div>
+            <div class="card">
+                <div class="card valine-card" data-aos="fade-up">
+                    <div class="comment_headling"
+                         style="font-size: 20px; font-weight: 700; position: relative; left: 20px; top: 15px; padding-bottom: 5px;">
+                        <i id="add_color" class="fas fa-comments fa-fw" aria-hidden="true"></i>
+                        <span id="add_color">Comments ----- Nickname and email required, URL optional</span>
+                    </div>
+                    <div id="vcomments" class="card-content" style="display: grid"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+{% block js %}
+
+    <script src="{% static 'plugin/valine/Valine.min.js' %}"></script>
+    <script src="{% static 'js/valine_key.js' %}"></script>
+    <script>initValine();</script>
+{% endblock js %}

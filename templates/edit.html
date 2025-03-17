@@ -1,0 +1,216 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block title %}Create Article {% endblock %}
+{% block banner %}
+    <div class="bg-cover pd-header about-cover">
+        <div class="container">
+            {% include 'layout/banner.html' %}
+        </div>
+    </div>
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'editor.md-master/css/editormd.min.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet"/>
+
+    <style>
+
+        
+        .select2-container .select2-selection--multiple {
+            border: 1px solid #ced4da; 
+            border-radius: 0.25rem; 
+            padding: 0.375rem 0.5rem; /
+            height: 20px;
+        }
+
+        
+        .select2-container .select2-selection__choice {
+            margin: 2px 2px 2px 0; 
+            padding: 0 10px; 
+            font-size: 0.875rem; 
+            line-height: 1; 
+        }
+
+     
+        .select2-container .select2-selection__rendered {
+            margin: 0;
+            padding: 0;
+        }
+
+
+        .select2-container .select2-selection--multiple {
+            height: 40px; 
+            padding: 5px 10px; 
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+        }
+
+        
+        .select2-container .select2-results__option {
+            padding: 5px 10px; 
+            line-height: 1.5;
+        }
+
+     
+        .select2-container .select2-selection__choice {
+            margin: 2px 2px 2px 0; 
+            padding: 0 10px; 
+            font-size: 0.875rem; 
+            line-height: 1.5; 
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__clear {
+            cursor: pointer;
+            float: right;
+            font-weight: bold;
+            margin-top: 1px;
+            margin-right: 10px;
+            padding: 1px;
+        }
+
+        
+        .select2-container .select2-selection--multiple:hover {
+            border-color: #80bdff; 
+        }
+
+        select.form-control {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        
+        #tag.select2-container .select2-selection {
+            border: none; 
+            border-radius: 0; 
+            height: 20px; 
+        }
+
+        
+        #tag.select2-container .select2-results__option {
+            padding: 5px 10px; 
+        }
+
+        .select2-container .select2-search--inline .select2-search__field {
+            box-sizing: border-box;
+            border: none;
+            font-size: 100%;
+            margin-top: -8px;
+            padding: 0;
+        }
+
+  
+        select.form-control {
+            display: block;
+            width: 100%;
+            height: auto; 
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            appearance: none;
+            box-shadow: inset 0 1px 2px rgb(0 0 0 / 8%);
+        }
+
+       
+        select[multiple].form-control {
+            height: 100px; 
+            overflow-y: auto; 
+        }
+        
+
+    </style>
+
+{% endblock css %}
+{% block contents %}
+
+    <main class="content">
+        <div id="indexCard" class="index-card">
+            <div class="container">
+                <div class="card" id="add_color">
+                    <div class="tag-title center-align" style="margin-top: 10px">
+                        <i class="fas fa-address-book" style="font-size: 26px;margin-top: 28px"></i>&nbsp;&nbsp;
+                        <span style="font-size: 26px;margin-top: 10px">Guests Sharing</span>
+                    </div>
+                    <div>
+                        <form method="post" novalidate>
+                            {% csrf_token %}
+                            {% for field in form %}
+                                <div class="form-group" style="margin-left: 150px;margin-right: 150px;" id="add_color">
+                                    <label>{{ field.label }}</label>
+                                    {{ field }}
+                                    <span id="add_color">{{ field.errors.0 }}</span>
+                                </div>
+                            {% endfor %}
+                            <button type="submit" class="btn btn-primary" style="background-color: #e1878c;;margin-left: 150px;margin-top: 10px;margin-bottom: 10px;">submit
+                            </button>
+                        </form>
+                    </div>
+
+                                                 <option value="">请选择分类</option>#}
+                   
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+
+{% endblock %}
+{% block js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+    <script type="text/javascript" src="{% static 'editor.md-master/lib/marked.min.js' %}"></script>
+    <script src="{% static 'editor.md-master/lib/prettify.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'editor.md-master/editormd.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            
+            $('#tag').select2({
+                placeholder: "Please select a tag",
+                allowClear: true
+            });
+
+           
+            var editor = editormd("editor", {
+                width: "100%",
+                height: "500px",
+                markdown: "# Write a blog post here",
+                path: "{% static 'editor.md-master/lib/' %}"
+            });
+
+          
+            document.getElementById('articleForm').addEventListener('submit', function () {
+                const markdownContent = editor.getMarkdown();
+                document.getElementById('content-hidden').value = markdownContent;
+            });
+
+           
+            const observer = new MutationObserver(function (mutations) {
+                mutations.forEach(function (mutation) {
+                    if (mutation.target.classList.contains('editormd-fullscreen')) {
+                       
+                        $('#tag').closest('.form-group').css('display', 'none');
+                    } else {
+                
+                        $('#tag').closest('.form-group').css('display', 'block');
+                    }
+                });
+            });
+
+         
+            const config = {attributes: true, childList: false, subtree: false};
+
+       
+            const targetNode = document.getElementById('editor');
+
+          
+            observer.observe(targetNode, config);
+        });
+
+    </script>
+{% endblock js %}
