@@ -1,22 +1,22 @@
 # IT-project
 
-1.**克隆项目**
+1.**Clone the project**
 
-命令行bash:git clone https://github.com/1350122892/IT-130project.git
+command linebash:git clone https://github.com/1350122892/IT-130project.git
 
-直接下载压缩包解压下载
+Download the compressed package directly, unzip and download
 
-2.**按照环境依赖**
+2.**Depends on the environment**
 
-pip install -r requirements.txt（或手动pycharm按照所需库）
+pip install -r requirements.txt（Or manually pycharm as per the desired library）
 
-3.**数据库配置**
+3.**Database configuration**
 
-安装mysql
+Install MySQL
 
-创建一个空的数据库
+Create an empty database
 
-编辑项目中的 settings.py（或使用单独的配置文件），配置 MySQL 数据库信息，例如：
+Edit the project settings.py（Or use a separate profile），Configure MySQL database information, for example:
 
 DATABASES = {
 'default':{
@@ -29,18 +29,18 @@ DATABASES = {
 }
 }
 
-4.**迁移数据库**
+4.**Migrate the database**
 
 python manage.py makemigrations
 
 python manage.py migrate
 
-导入我的数据库文件(dump-django_blog-202503110609.sql)
+Import my database files(dump-django_blog-202503110609.sql)
 
-5.**创建超级管理员**
+5.**Create a super admin**
 
-python manage.py createsuperuser（后台admin的账户和密码）
+python manage.py createsuperuser（The account and password of the admin in the backend）
 
-6.**启动开发服务器**
+6.**Start the development server**
 
 python manage.py runserver
