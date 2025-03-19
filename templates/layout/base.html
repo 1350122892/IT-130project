@@ -213,7 +213,7 @@
                                 <h3 class="search-title" style="margin-left: 0;margin-bottom: 5px">
                                     <a href="/article/${i.id}" target="_blank">${i.title}</a>
                                 </h3>
-                                <p class="search-description"><span style="font-size: 15px;align-items: center;justify-content: center">abstract:${i.desc}</span></p> 
+                                <p class="search-description"><span style="font-size: 15px;align-items: center;justify-content: center">abstract:${i.desc}</span></p>
                                 <span style="margin-right: 5px"><i class="fa fa-calendar" aria-hidden="true"></i><span class="search-date" style="margin-left: 4px">${formattedDate}</span></span>
                                 <span style="margin-right: 5px"><i class="fa fa-user" aria-hidden="true"></i><span class="search-date" style="margin-left: 4px;margin-right: 4px">${author}</span></span>
                                 <span style="margin-right: 5px"><i class="fa fa-eye" aria-hidden="true"></i></i><span class="search-date" style="margin-left: 4px;margin-right: 4px">${click_count}</span></span>
@@ -231,11 +231,11 @@
 
     }
 
-  
+
     let searchInput = document.getElementById("searchInput");
     let $resultContent = document.getElementById("searchResult");
     let currentPage = 1;
-   
+
      searchInput.addEventListener("input", debounce(() => {
          let searchKey = searchInput.value;
          if(searchKey.length >= 1){

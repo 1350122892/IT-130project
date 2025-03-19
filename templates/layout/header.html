@@ -108,10 +108,17 @@
           
           <li class="hide-on-med-and-down nav-item">
             {% if request.session.info.name %}
-            <a href="{% url 'account:logout' %}" class="waves-effect waves-light">
-              <i class="fas fa-sign-out-alt" style="font-size: 14px;"></i>
-              <span style="font-size: 0.9rem;">Login out</span>
-            </a>
+               <li class="hide-on-med-and-down nav-item">
+  <form action="{% url 'account:logout' %}" method="post" style="display: inline;">
+    {% csrf_token %}
+    <button type="submit"
+            class="waves-effect waves-light"
+            style="background: none; border: none; cursor: pointer; color: inherit;">
+      <i class="fas fa-sign-out-alt" style="font-size: 14px;"></i>
+      <span style="font-size: 0.9rem;">Logout</span>
+    </button>
+  </form>
+</li>
             {% else %}
             <a href="{% url 'account:login' %}" class="waves-effect waves-light">
               <i class="fas fa-sign-in-alt" style="font-size: 14px;"></i>

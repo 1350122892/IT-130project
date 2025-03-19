@@ -1,18 +1,31 @@
 from blog.models import Site, Social, Category
 
+
 def global_params(request):
-    """global variable"""
+    """Global variables for templates."""
+    site = Site.objects.first()
+    if site:
+        site_name = site.site_name
+        logo = site.logo
+        keywords = site.keywords
+        desc = site.desc
+        slogan = site.slogan
+        dynamic_slogan = site.dynamic_slogan
+        bg_cover = site.bg_cover
+        icp_number = site.icp_number
+        icp_url = site.icp_url
+    else:
+        site_name = "Default Site Name"
+        logo = ""
+        keywords = ""
+        desc = ""
+        slogan = ""
+        dynamic_slogan = ""
+        bg_cover = ""
+        icp_number = ""
+        icp_url = ""
 
     category_nav = Category.objects.filter(add_menu=True).order_by('index')
-    site_name = Site.objects.first().site_name
-    logo = Site.objects.first().logo
-    keywords = Site.objects.first().keywords
-    desc = Site.objects.first().desc
-    slogan = Site.objects.first().slogan
-    dynamic_slogan = Site.objects.first().dynamic_slogan
-    bg_cover = Site.objects.first().bg_cover
-    icp_number = Site.objects.first().icp_number
-    icp_url = Site.objects.first().icp_url
     social = Social.objects.all()
     return {
         'category_nav': category_nav,

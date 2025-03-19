@@ -1,18 +1,19 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from io import BytesIO
-
+import logging
+from django.views.decorators.http import require_POST
 from blog.models import User
 from blog.utils.Form import LoginForm
 from blog.utils.Verification import check_code  # 如果验证码函数留在原utils中
 # Create your views here.
+logger = logging.getLogger(__name__)
 
 # CAPTCHA
 def generate_captcha_image(request):
     img, code = check_code()
     # Save CAPTCHA to session and set expiry date
     request.session['captcha_code'] = code
-    request.session.set_expiry(60)
 
     buffer = BytesIO()
     img.save(buffer, format='PNG')
@@ -45,7 +46,7 @@ def login(request):
             user = authenticate_user(login_form)
             if user:
                 request.session['info'] = {"id": user.id, "name": user.name}
-                request.session.set_expiry(60 * 3600 * 7)
+                request.session.set_expiry(60 * 60 * 24 * 7 * 2)
                 return redirect(next_url)
 
     return render(request, 'login.html', {"form": login_form})
@@ -53,6 +54,8 @@ def login(request):
 
 
 
+
+@require_POST
 def logout(request):
     request.session.clear()
     return redirect('index')

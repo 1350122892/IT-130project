@@ -95,7 +95,7 @@ DATABASES = {
        'ENGINE':'django.db.backends.mysql',
        'NAME':'django_blog',
        'USER':'root',
-       'PASSWORD':'12345678',
+       'PASSWORD':'root',
        'HOST':'127.0.0.1',
        'PORT':3306
    }
@@ -152,10 +152,9 @@ DATETIME_FORMAT = 'Y-m-d'
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
-#STATICFILES_DIRS = [
-#    os.path.join(BASE_DIR, "bolg/static")
-#]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),  # The new top-level static directory
+]
 
 
 
@@ -238,7 +237,6 @@ SIMPLEUI_CONFIG = {
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 MEDIA_URL = '/media/'
 X_FRAME_OPTIONS = 'SAMEORIGIN'
-
 
 LOGGING = {
     'version': 1,

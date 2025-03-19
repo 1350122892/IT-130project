@@ -8,7 +8,7 @@ urlpatterns = [
 
     path('article/<int:id>/',views.article_detail,name='article_detail'),
 
-
+    path('search/', views.search, name='search'),
     path('category_tag/',views.category_tag,name='category_tag'),
 
     path('article_category/<int:id>/', views.article_category, name='article_category'),
@@ -24,7 +24,7 @@ urlpatterns = [
     path('tag/',views.tag_list,name='tag'),
 
     path('cloud_tag/',views.cloud_tag,name='cloud_tag'),
-    path('search/',views.search,name='search'),
+    # path('search/',views.search,name='search'),
 
     path('archive2/<int:id>',views.archive_by_year,name='archive2'),
 
