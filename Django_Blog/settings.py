@@ -158,7 +158,7 @@ STATICFILES_DIRS = [
 
 
 
-SIMPLEUI_LOGO = 'http://127.0.0.1:8000/media/img/img.png'
+SIMPLEUI_LOGO = 'http://13.61.195.39:8000/media/img/img.png'
 SIMPLEUI_ANALYSIS = False
 SIMPLEUI_LOADING = False
 SIMPLEUI_LOGIN_PARTICLES = True

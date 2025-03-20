@@ -44,7 +44,7 @@ class BlogViewsTest(TestCase):
             is_recommend=True,
             category=self.category1,
             author="Author1",
-            years=self.year  # ForeignKey => 直接赋值
+            years=self.year
         )
         self.article2 = Article.objects.create(
             title="Article 2",
